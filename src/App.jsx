@@ -41,19 +41,27 @@ function App() {
   }, []);
 
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const login = async () => {
+  const login = async ({data, error}) => {
     await supabase.auth.signInWithOAuth({
       provider: "github",
     });
+    
+let { data, error } = await supabase.auth.signInWithOAuth({
+  provider: 'github'
+})
+
+const { data: { user } } = await supabase.auth.getUser()
+
   };
 
-  const logout = async () => {
+  const logout = async ({error}) => {
     await supabase.auth.signOut()
   }
 
+
   return (
     <>
-     {user? ( <h1>Hello World</h1> ) : <button onClick={login}>Login</button>}
+     {user? <button onClick={login}>Login</button>} :
      <button onClick={logout}>LogOut</button>
     </>
   );
